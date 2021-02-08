@@ -1,4 +1,6 @@
 #!/bin/python3
+#!/bin/bash
+#!/bin/etc
 
 #Importations des modules
 import sys  # fonctions et paramètres systèmes
@@ -56,26 +58,15 @@ def test1():
     scan=nmap.PortScanner()
     os.system('cls' if os.name == 'nt' else 'clear')
     ip=input("Enter IP:DNS : ")
-    scan.scan(ip, "-p-", '-v -sS -sV -sC -A -O')
-    scan.command_line()
-    scan.scaninfo()
-    for host in scan.all_hosts():
-        print('.................................................................................................')
-        print ('Host: %s(%s)' % (host, scan[host].hostname()))
-        print ('State: %s' % scan[host].state())
-        for proto in scan[host].all_protocols():
-            print('........')
-            print ('Protocol: %s' % proto)
-            lport = scan[host][proto].keys()
-            sorted(lport)
-            for port in lport:
-                print('port: %s\tstate: %s' % (port, scan[host][proto][port]['state']))
-
+    #check avec un ping si l'IP est up sinon erreur
+    scan.scan(ip, '1-65535', '-v -sS -sV -sC -A -O')
+    print (scan.scaninfo())
 
 
 os.system('cls' if os.name == 'nt' else 'clear')
 ch = True
 while ch:
+    sudo_access()
     random.shuffle(random_color)
     text_menu = text_menu + random_color[0]
     print(text_menu)
@@ -87,7 +78,6 @@ while ch:
     """)
     selection=input("Select a choice : ")
     if selection=='1':
-        sudo_access()
         test1()
     elif selection=='2':
         pass
