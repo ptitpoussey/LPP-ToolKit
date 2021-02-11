@@ -20,7 +20,7 @@ class color:
     END = '\033|8m'
     LOGGING = '\033[34m'
 
-
+scan=nmap.PortScanner()
 random_color =[color.HEADER,color.IMPORTANT,color.NOTICE,color.OKBLUE,color.OKGREEN,color.WARNING,color.RED,color.END,color.LOGGING]
 text_menu = '''
     ╔========================================================================================================╗
@@ -53,14 +53,13 @@ def sudo_access():
          
 
 def test1():
-    scan=nmap.PortScanner()
     os.system('cls' if os.name == 'nt' else 'clear')
-    ip=input("Enter IP:DNS : ")
-    scan.scan(ip, "-p-", '-v -sS -sV -sC -A -O')
+    host=input("Enter IP | DNS : ")
+    scan.scan(host, '1-200' ,'-v -sS -sV -sC -A -O')
     scan.command_line()
     scan.scaninfo()
     for host in scan.all_hosts():
-        print('.................................................................................................')
+        print('........L...........................P...................................P...........................')
         print ('Host: %s(%s)' % (host, scan[host].hostname()))
         print ('State: %s' % scan[host].state())
         for proto in scan[host].all_protocols():
@@ -71,6 +70,16 @@ def test1():
             for port in lport:
                 print('port: %s\tstate: %s' % (port, scan[host][proto][port]['state']))
 
+def test3():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    host=input("Enter IP | DNS : ")
+    #if (scan[host].state != "up"):
+     #   print("Your host is down")
+    print("######   If you want to add your own file, put it in the folder [dir_list] ######")
+    os.system('cd dir_list && ls | tr " " "\n"' | tr ".txt" " ")
+    dir_file =input("Choose a fuzz's file between this ones : ")
+    # test is the file enter is in the folder
+    if dir_file 
 
 
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -93,7 +102,7 @@ while ch:
         pass
         #options2
     elif selection=='3':
-        pass
+        test3()
         #options3
     elif selection=='4':
         break
