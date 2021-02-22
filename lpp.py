@@ -4,10 +4,11 @@
 import sys  # fonctions et paramètres systèmes
 from datetime import datetime as dt
 import random
-import os #for clear function
+import os #for clear function and paths
 import nmap
 import ctypes
 import subprocess
+import requests
 
 class color:
     HEADER = '\033[95m'
@@ -20,7 +21,6 @@ class color:
     END = '\033|8m'
     LOGGING = '\033[34m'
 
-scan=nmap.PortScanner()
 random_color =[color.HEADER,color.IMPORTANT,color.NOTICE,color.OKBLUE,color.OKGREEN,color.WARNING,color.RED,color.END,color.LOGGING]
 text_menu = '''
     ╔========================================================================================================╗
@@ -53,9 +53,10 @@ def sudo_access():
          
 
 def test1():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    scan=nmap.PortScanner()
+    #os.system('cls' if os.name == 'nt' else 'clear')
     host=input("Enter IP | DNS : ")
-    scan.scan(host, '1-200' ,'-v -sS -sV -sC -A -O')
+    scan.scan(host, '1-65535' ,'-v -sS -sV -sC -A -O')
     scan.command_line()
     scan.scaninfo()
     for host in scan.all_hosts():
@@ -76,10 +77,20 @@ def test3():
     #if (scan[host].state != "up"):
      #   print("Your host is down")
     print("######   If you want to add your own file, put it in the folder [dir_list] ######")
-    os.system('cd dir_list && ls | tr " " "\n"' | tr ".txt" " ")
+    os.system('cd dir_list && ls | tr " " "\n" | tr ".txt" " "')
     dir_file =input("Choose a fuzz's file between this ones : ")
-    # test is the file enter is in the folder
-    if dir_file 
+    # test if the file enter is in the folder
+    dir_file=dir_file+".txt"
+    print(dir_file)
+    if os.path.exists("dir_list/"+dir_file):
+        try:
+            return requests.get("http://"+host)
+        except requests.exceptions.ConnectionError:
+            print("Error: Can't connect to website.")
+        for word in read_wordlist(dir_file):
+                                                
+        else:
+        print("no")
 
 
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -93,7 +104,7 @@ while ch:
         2. SQL Injections Tests
         3- Find hiddens URL's
         4- Leave Program
-    """)
+            """)
     selection=input("Select a choice : ")
     if selection=='1':
         sudo_access()
