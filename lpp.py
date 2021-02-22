@@ -83,14 +83,19 @@ def test3():
     dir_file=dir_file+".txt"
     print(dir_file)
     if os.path.exists("dir_list/"+dir_file):
+        file = open("dir_list/"+dir_file)
         try:
             return requests.get("http://"+host)
         except requests.exceptions.ConnectionError:
             print("Error: Can't connect to website.")
-        for word in read_wordlist(dir_file):
-                                                
-        else:
-        print("no")
+        for lines in file:
+            word=lines.strip()
+            url=host+"/"+word
+            response=request(url)
+            if response:
+                print("A directory has been found here: "+url)
+            else:
+                print("no")
 
 
 os.system('cls' if os.name == 'nt' else 'clear')
