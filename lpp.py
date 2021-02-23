@@ -1,5 +1,5 @@
 #!/bin/python3
-
+#!/user/bin/python
 #Importations des modules
 import sys  # fonctions et paramètres systèmes
 from datetime import datetime as dt
@@ -9,6 +9,10 @@ import nmap
 import ctypes
 import subprocess
 import requests
+import re
+
+
+
 
 class color:
     HEADER = '\033[95m'
@@ -71,6 +75,14 @@ def test1():
             for port in lport:
                 print('port: %s\tstate: %s' % (port, scan[host][proto][port]['state']))
 
+def request(url):
+        try:
+            return requests.get("http://" + url)
+        except requests.exceptions.ConnectionError:
+            print("Error: Can't connect to website!")
+            os.system('rm dir_result.txt')
+            sys.exit(0)
+
 def test3():
     os.system('cls' if os.name == 'nt' else 'clear')
     host=input("Enter IP | DNS : ")
@@ -81,21 +93,22 @@ def test3():
     dir_file =input("Choose a fuzz's file between this ones : ")
     # test if the file enter is in the folder
     dir_file=dir_file+".txt"
-    print(dir_file)
+    os.system('touch dir_result.txt')
+    #try to found a way to display the number of tests like if we have 100 words in the wordlist, it display X/100
+    f = open('dir_result.txt', 'w')
     if os.path.exists("dir_list/"+dir_file):
         file = open("dir_list/"+dir_file)
-        try:
-            return requests.get("http://"+host)
-        except requests.exceptions.ConnectionError:
-            print("Error: Can't connect to website.")
         for lines in file:
             word=lines.strip()
             url=host+"/"+word
             response=request(url)
             if response:
+                print("==============================================================================")
                 print("A directory has been found here: "+url)
-            else:
-                print("no")
+                f.write(str(url)) # DOESNT WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    print("====================================================================================")
+    file.close()
+    f.close()
 
 
 os.system('cls' if os.name == 'nt' else 'clear')
