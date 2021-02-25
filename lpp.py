@@ -10,7 +10,7 @@ import ctypes
 import subprocess
 import requests
 import re
-
+import os.path
 
 
 
@@ -98,11 +98,12 @@ def test3():
     os.system('touch dir_result.txt')
     #try to found a way to display the number of tests like if we have 100 words in the wordlist, it display X/100
     f = open('dir_result.txt', 'w')
-    while (dir_file != os.path.exists("dir_list/"+dir_file)): #Infinite loop. Need to fix this
+    while (not(os.path.isfile("dir_list/"+dir_file))):
         print("The file entered do not exist!!")
         print("Try again... :")
         os.system('cd dir_list && ls | tr " " "\n" | tr ".txt" " "')
         dir_file =input("Choose a fuzz's file between this ones : ")
+        dir_file=dir_file+".txt"
     if os.path.exists("dir_list/"+dir_file):
         file = open("dir_list/"+dir_file)
         for lines in file:
