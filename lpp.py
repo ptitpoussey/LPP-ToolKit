@@ -11,8 +11,12 @@ import subprocess
 import requests
 import re
 import os.path
+import urllib.request
 
 
+# Make a regular expression for validating an Ip-address
+regex = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+ 
 
 class color:
     HEADER = '\033[95m'
@@ -60,6 +64,7 @@ def test1():
     scan=nmap.PortScanner()
     #os.system('cls' if os.name == 'nt' else 'clear')
     host=input("Enter IP | DNS : ")
+    test_up(host)
     scan.scan(host, '1-65535' ,'-v -sS -sV -sC -A -O')
     scan.command_line()
     scan.scaninfo()
@@ -74,6 +79,23 @@ def test1():
             sorted(lport)
             for port in lport:
                 print('port: %s\tstate: %s' % (port, scan[host][proto][port]['state']))
+
+def test_up(ip):
+    
+    if(re.search(regex, ip)):
+        if not (os.path.exists("scan_result.txt")):
+            os.system("touch scan_result.txt")
+        else:
+            os.system("rm scan_result.txt;touch scan_result.txt")
+
+    else:
+        print("Invalid Ip address")
+        sys.exit(0)
+
+
+
+
+
 
 def request(url):
         try:
