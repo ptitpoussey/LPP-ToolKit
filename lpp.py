@@ -58,13 +58,14 @@ def sudo_access():
     if os.geteuid() != 0:
         print("You need to have root privileges to continue.")
         sys.exit(0)
-         
+    
+    #Add an help option like --help
 
 def test1():
     scan=nmap.PortScanner()
     #os.system('cls' if os.name == 'nt' else 'clear')
     host=input("Enter IP | DNS : ")
-    test_up(host)
+    #test_up(host)
     scan.scan(host, '1-65535' ,'-v -sS -sV -sC -A -O')
     scan.command_line()
     scan.scaninfo()
@@ -109,6 +110,7 @@ def request(url):
                 sys.exit(0)
 
 def test3():
+    i=1
     os.system('cls' if os.name == 'nt' else 'clear')
     host=input("Enter IP | DNS <<|http://| not needed>>: ")
     check_dns=request(host)
@@ -125,7 +127,11 @@ def test3():
         print("Try again... :")
         os.system('cd dir_list && ls | tr " " "\n" | tr ".txt" " "')
         dir_file =input("Choose a fuzz's file between this ones : ")
-        dir_file=dir_file+".txt"
+        dir_file+="txt"
+        f=open("dir_list/"+dir_file, 'r')
+        NumberOfLine = 0
+        for line in f:
+           NumberOfLine += 1
     if os.path.exists("dir_list/"+dir_file):
         file = open("dir_list/"+dir_file)
         for lines in file:
@@ -133,8 +139,9 @@ def test3():
             url=host+"/"+word
             response=request(url)
             if response:
+                i=1
                 print("==============================================================================")
-                print("A directory has been found here: "+url)
+                print("["+ i++ +"/"+NumberOfLine+"]"+"A directory has been found here: "+url)
                 f.write(str(url+"\n"))
         print("====================================================================================")
         file.close()
