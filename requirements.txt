@@ -1,0 +1,5 @@
+elasticsearch==7.13.4
+python-nmap==0.6.1
+requests==2.25.1
+msfrpc-client==1.1.1
+fpdf==1.7.2
